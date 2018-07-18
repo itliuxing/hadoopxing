@@ -1,0 +1,15 @@
+106.19.21.143 - - [18/Jul/2018:06:30:15 +0800] "GET /servicesmng/oauth/wx07bf81a51358a68f/snsapi_base.form?code=081noraq1NoR0q0t9Eaq1ROdaq1noraZ&state=https%3A%2F%2Fwechat.zhdsbang.com%2Fweixin%2Findex.html%3Fouri%3D9ab7489f-0e61-4b6e-8fa2-2e6c9261e2bd%40supplydemand&appid=wx07bf81a51358a68f HTTP/1.1" 302 - "Mozilla/5.0 (Linux; Android 8.0; MHA-AL00 Build/HUAWEIMHA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044109 Mobile Safari/537.36 MicroMessenger/6.6.7.1321(0x26060739) NetType/4G Language/zh_CN" 360
+
+对如上用户行为日志做数据分析
+
+1：分析每个请求的相应时间，然后记录 最后整理成 每个不同的相应时间总共有几次请求：
+    【10，5】类似 10毫秒有五次请求，响应时间的取值是上面的最后一个空格分割的数据
+
+2：分析每个请求的微信的版本号，然后分析统计微信版本对应本系统的适配性
+    【6.6，698】类似 6.6版本有698个
+
+3：分析不同的操作系统在使用本系统的分布
+    【Android：902，IOS：1232】类似 操作系统的用户分布
+
+4：分析不同操作系统的版本分布：
+    【Android 6.1:18,Android 8.1:1928,IOS 11.4：4353】类似操作系统版本，这个一般是为了适配APP，暂时不需要分析到这么细

@@ -36,6 +36,21 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- 解析UserAgent UserAgentParser 浏览器数据 -->
+      <dependency>
+          <groupId>com.kumkee</groupId>
+          <artifactId>UserAgentParser</artifactId>
+          <version>0.0.1</version>
+      </dependency>
+
+
+    <!-- 解析UserAgent yauaa 浏览器数据,这个更加强大 -->
+    <dependency>
+      <groupId>nl.basjes.parse.useragent</groupId>
+      <artifactId>yauaa</artifactId>
+      <version>5.0</version>
+    </dependency>
     <!-- 添加hadoop依赖 -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
