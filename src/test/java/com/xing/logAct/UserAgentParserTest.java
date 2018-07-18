@@ -1,10 +1,12 @@
 package com.xing.logAct;
 
 
-import com.kumkee.userAgent.UserAgent;
-import com.kumkee.userAgent.UserAgentParser;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.junit.Test;
+
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Class UserAgentParserTest
@@ -27,7 +29,7 @@ public class UserAgentParserTest {
     /***
      * UserAgentParser 框架
      */
-    @Test
+  /*  @Test
     public void userAgentParserTest(){
         UserAgentParser userAgentParser  = new UserAgentParser();
         UserAgent agent = userAgentParser.parse(source);
@@ -38,7 +40,7 @@ public class UserAgentParserTest {
         System.out.println( " OS ： " +  agent.getOs() );
         System.out.println( " Platform ： " +  agent.getPlatform() );
         System.out.println( " isMobile ： " + agent.isMobile() ) ;
-    }
+    }*/
 
     /***
      * yauaa 框架  解析出来的信息很惊人
@@ -56,6 +58,59 @@ public class UserAgentParserTest {
             System.out.println(fieldName + " = " + agent.getValue(fieldName));
         }
     }
+
+    private String text = "106.19.21.143 - - [18/Jul/2018:06:30:15 +0800] \"GET /servicesmng/oauth/wx07bf81a51358a68f/snsapi_base.form?code=081noraq1NoR0q0t9Eaq1ROdaq1noraZ&state=https%3A%2F%2Fwechat.zhdsbang.com%2Fweixin%2Findex.html%3Fouri%3D9ab7489f-0e61-4b6e-8fa2-2e6c9261e2bd%40supplydemand&appid=wx07bf81a51358a68f HTTP/1.1\" 302 - \"Mozilla/5.0 (Linux; Android 8.0; MHA-AL00 Build/HUAWEIMHA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044109 Mobile Safari/537.36 MicroMessenger/6.6.7.1321(0x26060739) NetType/4G Language/zh_CN\" 360" ;
+
+    /***
+     * 测试提取数据
+     */
+    @Test
+    public void parserSourceTest(){
+        // 1：解析字符串，获取第三个引号至第四个引号之间的字符
+        int start = StringUtils.getCharacterPosition( text , "\"" , 3 ) ;
+        int end = StringUtils.getCharacterPosition( text , "\"" , 4 ) ;
+        String userAgent = text.substring( start + 1 ,end ) ;
+        System.out.println( " userAgent : " + userAgent );
+        // 2：解析字符串，获取调用IP 0、请求时间 4、响应时间 最后
+        StringTokenizer words = new StringTokenizer( text ) ;
+
+        String requseIP = "";               //获取调用IP 0      106.19.21.143
+        String requseTime = "" ;            //请求时间 3        [18/Jul/2018:06:30:15
+        String responceTime = "" ;          //响应时间 最后       360
+
+        String temp ;
+        int addM = 0 ;
+        while( words.hasMoreElements() ){
+            temp = words.nextToken() ;
+            if( addM == 0  ){
+                requseIP = temp ;
+            }
+            if( addM== 3 ){
+                requseTime = temp ;
+            }
+            if( ! words.hasMoreElements() ){
+                responceTime = temp ;
+            }
+            addM ++ ;
+        }
+        System.out.println( " requseIP : " + requseIP  );
+        System.out.println( " requseTime : " + requseTime  );
+        System.out.println( " responceTime : " + responceTime  );
+        // 3：解析userAgent
+        UserAgentAnalyzer uaa = UserAgentAnalyzer
+                .newBuilder()
+                .hideMatcherLoadStats()
+                .withCache(25000)
+                .build();
+        nl.basjes.parse.useragent.UserAgent agent = uaa.parse( source );
+
+        for (String fieldName: agent.getAvailableFieldNamesSorted()) {
+            System.out.println(fieldName + " = " + agent.getValue(fieldName));
+        }
+
+    }
+
+
 
 
 }
